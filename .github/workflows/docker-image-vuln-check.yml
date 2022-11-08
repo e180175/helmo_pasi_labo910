@@ -8,15 +8,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: docker build . -t ${{ env.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
+    - run: docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
       
     - uses: Azure/container-scan@v0
       with:
-        image-name: ${{ env.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
+        image-name: ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
     
     - uses: Azure/docker-login@v1
       with:
-        login-server: ${{ env.CONTAINER_REGISTRY }}
+        login-server: ${{ secrets.CONTAINER_REGISTRY }}
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     
