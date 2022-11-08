@@ -6,13 +6,9 @@ jobs:
   build-secure-and-push:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@master
 
     - run: docker build . -t ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
-    
-    - uses: Azure/container-scan@v0
-      with:
-        image-name: ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
     
     - uses: Azure/docker-login@v1
       with:
@@ -21,4 +17,8 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
     
     - run: docker push ${{ env.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
+    
+    - uses: Azure/container-scan@v0
+      with:
+        image-name: ${{ secrets.CONTAINER_REGISTRY }}/python3:${{ github.sha }}
     
